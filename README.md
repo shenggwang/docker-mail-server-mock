@@ -9,10 +9,10 @@ AWS SES mocked server and normal SMTP mocked server for test purpose.
 * [Docker](https://docs.docker.com/get-docker/)
 * [Java](https://openjdk.java.net/)
 * [Maven](https://maven.apache.org/install.html)
+* [AWS cli](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
 
 ### **Setup AWS credentials.**
 
-* [AWS cli](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
 * [AWS credentials](https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/setup-credentials.html)
 
 ## 🚀 Quick start
@@ -47,13 +47,13 @@ mvn clean install -T 1.5C
 ### **AWS SES test.**
 
 ``` shell
-mvn exec:java -Dexec.mainClass="mail.AWSSESSample"
+mvn exec:java -Dexec.mainClass="mail.SESAWSSample"
 ```
 
 ### **SMTP test.**
 
 ``` shell
-mvn exec:java -Dexec.mainClass="mail.SMTPSample"
+mvn exec:java -Dexec.mainClass="mail.SMTPAWSSample"
 ```
 
 ## 🧹 Clean up

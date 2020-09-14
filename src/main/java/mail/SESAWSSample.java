@@ -15,7 +15,7 @@ import com.amazonaws.services.simpleemail.model.SendEmailResult;
 /**
  * test.
  */
-public class AWSSESSample {
+public class SESAWSSample {
 
     // Replace sender@example.com with your "From" address.
     // This address must be verified with Amazon SES.

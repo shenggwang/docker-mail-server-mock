@@ -23,7 +23,7 @@ import javax.mail.internet.MimeMessage;
 /**
  * Test with SMTP server
  */
-public class SMTPSample {
+public class SMTPAWSSample {
 
     private enum Credentials {
         ACCESS_KEY("aws_access_key_id"),
@@ -48,9 +48,10 @@ public class SMTPSample {
     static final String TO = "recipient@example.com";
 
     private static String getCredentials(final Credentials credentialsType) {
+
         final String path = System.getProperty("user.home")+"/.aws/credentials";
-        System.out.println(path);
         final File credentialsFile = new File(path);
+
         String value = null;
         System.out.println(credentialsType.value());
         try (final Scanner myReader = new Scanner(credentialsFile)) {
@@ -108,8 +109,9 @@ public class SMTPSample {
         props.put("mail.smtp.timeout", 6000);
         // timeout milliseconds, waiting for 6 secs
         props.put("mail.smtp.connectiontimeout", 6000);
+        // below are not mandatory to make this working.
         props.put("mail.aws.region", "us-east-1");
-        props.put("mail.aws.host", "http://localhost:9001");
+        props.put("mail.aws.host", "localhost");
         props.put("mail.aws.user", getCredentials(Credentials.ACCESS_KEY));
         props.put("mail.aws.password", getCredentials(Credentials.SECRET_ACCESS_KEY));
 
@@ -130,8 +132,6 @@ public class SMTPSample {
 
         // Create a transport.
         try (final Transport transport = session.getTransport()) {
-            System.out.println(transport.isConnected());
-            System.out.println(transport.getURLName());
             System.out.println("Sending...");
 
             // Connect to Amazon SES using the SMTP username and password you specified above.

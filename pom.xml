@@ -29,7 +29,7 @@
                             <goal>java</goal>
                         </goals>
                         <configuration>
-                            <mainClass>mail.AWSSESSample</mainClass>
+                            <mainClass>mail.SESAWSSample</mainClass>
                             <cleanupDaemonThreads>false</cleanupDaemonThreads>
                         </configuration>
                     </execution>
@@ -39,7 +39,7 @@
                             <goal>java</goal>
                         </goals>
                         <configuration>
-                            <mainClass>mail.SMTPSample</mainClass>
+                            <mainClass>mail.SMTPAWSSample</mainClass>
                             <cleanupDaemonThreads>false</cleanupDaemonThreads>
                         </configuration>
                     </execution>
