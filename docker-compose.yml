@@ -1,0 +1,45 @@
+version: '3.3'
+services:
+  nginx:
+    container_name: nginx
+    build:
+      context: ./nginx
+    image: nginx:1.0.0
+    restart: unless-stopped
+    environment:
+      - VIRTUAL_HOST:mail.example.com
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    ports:
+      - 80:80
+      - 25:25
+      - 110:110
+      - 143:143
+    networks:
+      - main
+
+  aws-ses:
+    container_name: aws-ses
+    build:
+      context: ./aws-ses
+    image: aws-ses:1.0.0
+    restart: unless-stopped
+    ports:
+      - 9001:9001
+    networks:
+      - main
+
+  smtp-server:
+    container_name: smtp-server
+    build:
+      context: ./smtp-server
+    image: smtp-server:1.0.0
+    restart: unless-stopped
+    ports:
+      - 1080:1080
+    networks:
+      - main
+
+
+networks:
+  main:
