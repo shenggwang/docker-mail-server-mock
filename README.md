@@ -12,6 +12,7 @@ AWS SES mocked server and normal SMTP mocked server for test purpose.
 
 ### **Setup AWS credentials.**
 
+* [AWS cli](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
 * [AWS credentials](https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/setup-credentials.html)
 
 ## 🚀 Quick start
@@ -79,3 +80,10 @@ docker rmi $(docker images -q -f dangling=true)
 docker image prune -a
 ```
 
+## 📖 Conclusion
+
+After testing it with both javax.mail and aws-java-sdk. It seemed that javax.mail requires a connection first then perform send and receive mail processes.
+However, this can't connect to aws-ses-local as it tries infinitely connecting it, never achieving to the established state.
+
+Therefore, I conclude that Amazon SES can be connected via javax.mail (SMTP) only if there is a [SMTP credential](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/smtp-credentials.html) from AWS console.
+Otherwise, we can use aws-java-sdk (Amazon SES sdk) with the AWS credential.

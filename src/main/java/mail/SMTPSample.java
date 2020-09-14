@@ -48,10 +48,12 @@ public class SMTPSample {
     static final String TO = "recipient@example.com";
 
     private static String getCredentials(final Credentials credentialsType) {
-        final File credentials = new File("~/.aws/credentials");
+        final String path = System.getProperty("user.home")+"/.aws/credentials";
+        System.out.println(path);
+        final File credentialsFile = new File(path);
         String value = null;
         System.out.println(credentialsType.value());
-        try (final Scanner myReader = new Scanner(credentials)) {
+        try (final Scanner myReader = new Scanner(credentialsFile)) {
             while (myReader.hasNextLine()) {
                 final String data = myReader.nextLine();
                 if (data.contains(credentialsType.value())) {
@@ -66,10 +68,10 @@ public class SMTPSample {
 
 
     // Replace smtp_username with your Amazon SES SMTP user name.
-    static final String SMTP_USERNAME = getCredentials(Credentials.ACCESS_KEY);
+    static final String SMTP_USERNAME = "smtp_user";
 
     // Replace smtp_password with your Amazon SES SMTP password.
-    static final String SMTP_PASSWORD = getCredentials(Credentials.SECRET_ACCESS_KEY);
+    static final String SMTP_PASSWORD = "smtp_pass";
 
     // The name of the Configuration Set to use for this message.
     // If you comment out or remove this variable, you will also need to
@@ -79,7 +81,7 @@ public class SMTPSample {
     // Amazon SES SMTP host name. This example uses the US West (Oregon) region.
     // See https://docs.aws.amazon.com/ses/latest/DeveloperGuide/regions.html#region-endpoints
     // for more information.
-    static final String HOST = "email-smtp.us-east-1.localhost";
+    static final String HOST = "localhost";
 
     // The port you will connect to on the Amazon SES SMTP endpoint. 
     static final int PORT = 9001;
@@ -101,7 +103,16 @@ public class SMTPSample {
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.port", PORT);
         props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.auth", "false");
+        props.put("mail.smtp.auth", "true");
+        // timeout milliseconds, waiting for 6 secs
+        props.put("mail.smtp.timeout", 6000);
+        // timeout milliseconds, waiting for 6 secs
+        props.put("mail.smtp.connectiontimeout", 6000);
+        props.put("mail.aws.region", "us-east-1");
+        props.put("mail.aws.host", "localhost");
+        props.put("mail.aws.user", getCredentials(Credentials.ACCESS_KEY));
+        props.put("mail.aws.password", getCredentials(Credentials.SECRET_ACCESS_KEY));
+
 
         // Create a Session object to represent a mail session with the specified properties. 
         final Session session = Session.getDefaultInstance(props);
