@@ -47,13 +47,33 @@ mvn clean install -T 1.5C
 ### **AWS SES test.**
 
 ``` shell
-mvn exec:java -Dexec.mainClass="mail.SESAWSSample"
+mvn exec:java -Dexec.mainClass="mail.aws.SESAWSSample"
 ```
 
-### **SMTP test.**
+### **AWS SMTP test.**
 
 ``` shell
-mvn exec:java -Dexec.mainClass="mail.SMTPAWSSample"
+mvn exec:java -Dexec.mainClass="mail.aws.SMTPAWSSample"
+```
+
+### **Normal SMTP test.**
+
+``` shell
+mvn exec:java -Dexec.mainClass="mail.smtp.SMTPSample"
+```
+
+## 🔎 Check results
+
+### **AWS SES**
+You can check mails from this log:
+``` shell
+docker logs aws-ses
+```
+
+### **SMTP**
+You can check mails from any browser by enter:
+```
+localhost:1080
 ```
 
 ## 🧹 Clean up

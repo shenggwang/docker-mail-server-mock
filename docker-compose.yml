@@ -36,6 +36,7 @@ services:
     image: smtp-server:1.0.0
     restart: unless-stopped
     ports:
+      - 1025:1025
       - 1080:1080
     networks:
       - main

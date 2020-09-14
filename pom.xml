@@ -24,12 +24,22 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>aws</id>
+                        <id>aws-ses</id>
                         <goals>
                             <goal>java</goal>
                         </goals>
                         <configuration>
-                            <mainClass>mail.SESAWSSample</mainClass>
+                            <mainClass>mail.aws.SESAWSSample</mainClass>
+                            <cleanupDaemonThreads>false</cleanupDaemonThreads>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>aws-smtp</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>mail.aws.SMTPAWSSample</mainClass>
                             <cleanupDaemonThreads>false</cleanupDaemonThreads>
                         </configuration>
                     </execution>
@@ -39,7 +49,7 @@
                             <goal>java</goal>
                         </goals>
                         <configuration>
-                            <mainClass>mail.SMTPAWSSample</mainClass>
+                            <mainClass>mail.smtp.SMTPSample</mainClass>
                             <cleanupDaemonThreads>false</cleanupDaemonThreads>
                         </configuration>
                     </execution>

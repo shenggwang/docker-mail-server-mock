@@ -7,7 +7,9 @@
  * (c) 2020 Feedzai, Strictly Confidential
  */
 
-package mail;
+package mail.aws;
+
+import mail.aws.credentials.DummyData;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -38,15 +40,6 @@ public class SMTPAWSSample {
         public String value() { return value; }
     }
 
-    // Replace sender@example.com with your "From" address.
-    // This address must be verified.
-    static final String FROM = "sender@example.com";
-    static final String FROMNAME = "Sender Name";
-
-    // Replace recipient@example.com with a "To" address. If your account 
-    // is still in the sandbox, this address must be verified.
-    static final String TO = "recipient@example.com";
-
     private static String getCredentials(final Credentials credentialsType) {
 
         final String path = System.getProperty("user.home")+"/.aws/credentials";
@@ -67,29 +60,7 @@ public class SMTPAWSSample {
         return value;
     }
 
-
-    // Replace smtp_username with your Amazon SES SMTP user name.
-    static final String SMTP_USERNAME = "smtp_user";
-
-    // Replace smtp_password with your Amazon SES SMTP password.
-    static final String SMTP_PASSWORD = "smtp_pass";
-
-    // The name of the Configuration Set to use for this message.
-    // If you comment out or remove this variable, you will also need to
-    // comment out or remove the header below.
-    static final String CONFIGSET = "ConfigSet";
-
-    // Amazon SES SMTP host name. This example uses the US West (Oregon) region.
-    // See https://docs.aws.amazon.com/ses/latest/DeveloperGuide/regions.html#region-endpoints
-    // for more information.
-    static final String HOST = "http://localhost:9001";
-
-    // The port you will connect to on the Amazon SES SMTP endpoint. 
-    static final int PORT = 9001;
-
-    static final String SUBJECT = "Amazon SES test (SMTP interface accessed using Java)";
-
-    static final String BODY = String.join(
+    private static final String BODY = String.join(
             System.getProperty("line.separator"),
             "<h1>Amazon SES SMTP Email Test</h1>",
             "<p>This email was sent with Amazon SES using the ",
@@ -102,7 +73,7 @@ public class SMTPAWSSample {
         // Create a Properties object to contain connection configuration information.
         final Properties props = System.getProperties();
         props.put("mail.transport.protocol", "aws");
-        props.put("mail.smtp.port", PORT);
+        props.put("mail.smtp.port", DummyData.PORT);
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.auth", "true");
         // timeout milliseconds, waiting for 6 secs
@@ -112,8 +83,8 @@ public class SMTPAWSSample {
         // below are not mandatory to make this working.
         props.put("mail.aws.region", "us-east-1");
         props.put("mail.aws.host", "localhost");
-        props.put("mail.aws.user", getCredentials(Credentials.ACCESS_KEY));
-        props.put("mail.aws.password", getCredentials(Credentials.SECRET_ACCESS_KEY));
+        props.put("mail.aws.user", SMTPAWSSample.getCredentials(Credentials.ACCESS_KEY));
+        props.put("mail.aws.password", SMTPAWSSample.getCredentials(Credentials.SECRET_ACCESS_KEY));
 
 
         // Create a Session object to represent a mail session with the specified properties. 
@@ -121,21 +92,21 @@ public class SMTPAWSSample {
 
         // Create a message with the specified information. 
         final MimeMessage msg = new MimeMessage(session);
-        msg.setFrom(new InternetAddress(FROM,FROMNAME));
-        msg.setRecipient(Message.RecipientType.TO, new InternetAddress(TO));
-        msg.setSubject(SUBJECT);
-        msg.setContent(BODY,"text/html");
+        msg.setFrom(new InternetAddress(DummyData.FROM,DummyData.FROM_NAME));
+        msg.setRecipient(Message.RecipientType.TO, new InternetAddress(DummyData.TO));
+        msg.setSubject(DummyData.SUBJECT);
+        msg.setContent(SMTPAWSSample.BODY,"text/html");
 
         // Add a configuration set header. Comment or delete the 
         // next line if you are not using a configuration set
-        msg.setHeader("X-SES-CONFIGURATION-SET", CONFIGSET);
+        msg.setHeader("X-SES-CONFIGURATION-SET", DummyData.CONFIGSET);
 
         // Create a transport.
         try (final Transport transport = session.getTransport()) {
             System.out.println("Sending...");
 
             // Connect to Amazon SES using the SMTP username and password you specified above.
-            transport.connect(HOST, SMTP_USERNAME, SMTP_PASSWORD);
+            transport.connect(DummyData.HOST, DummyData.SMTP_USERNAME, DummyData.SMTP_PASSWORD);
 
             // Send the email.
             transport.sendMessage(msg, msg.getAllRecipients());
