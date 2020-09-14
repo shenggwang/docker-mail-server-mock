@@ -81,7 +81,7 @@ public class SMTPSample {
     // Amazon SES SMTP host name. This example uses the US West (Oregon) region.
     // See https://docs.aws.amazon.com/ses/latest/DeveloperGuide/regions.html#region-endpoints
     // for more information.
-    static final String HOST = "localhost";
+    static final String HOST = "http://localhost:9001";
 
     // The port you will connect to on the Amazon SES SMTP endpoint. 
     static final int PORT = 9001;
@@ -100,7 +100,7 @@ public class SMTPSample {
 
         // Create a Properties object to contain connection configuration information.
         final Properties props = System.getProperties();
-        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.transport.protocol", "aws");
         props.put("mail.smtp.port", PORT);
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.auth", "true");
@@ -109,7 +109,7 @@ public class SMTPSample {
         // timeout milliseconds, waiting for 6 secs
         props.put("mail.smtp.connectiontimeout", 6000);
         props.put("mail.aws.region", "us-east-1");
-        props.put("mail.aws.host", "localhost");
+        props.put("mail.aws.host", "http://localhost:9001");
         props.put("mail.aws.user", getCredentials(Credentials.ACCESS_KEY));
         props.put("mail.aws.password", getCredentials(Credentials.SECRET_ACCESS_KEY));
 
@@ -143,7 +143,9 @@ public class SMTPSample {
         } catch (final Exception ex) {
             System.out.println("The email was not sent.");
             System.out.println("Error message: " + ex.getMessage());
+            ex.printStackTrace();
         }
         // Close and terminate the connection.
+        System.exit(0);
     }
 }
