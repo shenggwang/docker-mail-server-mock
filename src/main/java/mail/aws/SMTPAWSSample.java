@@ -73,6 +73,7 @@ public class SMTPAWSSample {
         // Create a Properties object to contain connection configuration information.
         final Properties props = System.getProperties();
         props.put("mail.transport.protocol", "aws");
+        /*
         props.put("mail.smtp.port", DummyData.PORT);
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.auth", "true");
@@ -83,12 +84,12 @@ public class SMTPAWSSample {
         // below are not mandatory to make this working.
         props.put("mail.aws.region", "us-east-1");
         props.put("mail.aws.host", "localhost");
-        props.put("mail.aws.user", SMTPAWSSample.getCredentials(Credentials.ACCESS_KEY));
-        props.put("mail.aws.password", SMTPAWSSample.getCredentials(Credentials.SECRET_ACCESS_KEY));
-
+        props.put("mail.aws.user", "user");         //SMTPAWSSample.getCredentials(Credentials.ACCESS_KEY)
+        props.put("mail.aws.password", "password"); //SMTPAWSSample.getCredentials(Credentials.SECRET_ACCESS_KEY)
+        */
 
         // Create a Session object to represent a mail session with the specified properties. 
-        final Session session = Session.getDefaultInstance(props);
+        final Session session = Session.getInstance(props);
 
         // Create a message with the specified information. 
         final MimeMessage msg = new MimeMessage(session);
@@ -106,7 +107,7 @@ public class SMTPAWSSample {
             System.out.println("Sending...");
 
             // Connect to Amazon SES using the SMTP username and password you specified above.
-            transport.connect(DummyData.HOST, DummyData.SMTP_USERNAME, DummyData.SMTP_PASSWORD);
+            transport.connect(DummyData.HOST, 9001, DummyData.SMTP_USERNAME, DummyData.SMTP_PASSWORD);
 
             // Send the email.
             transport.sendMessage(msg, msg.getAllRecipients());
